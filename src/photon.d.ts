@@ -107,6 +107,8 @@ export interface operations {
                 q: string;
                 /** @example 10 */
                 location_bias_scale?: string;
+                /** @description Describes the radius around the center to focus on. This influences location bias. */
+                zoom?: number;
                 /** @example 10 */
                 limit?: number;
                 /** @example tourism:museum */

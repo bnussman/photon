@@ -19,9 +19,7 @@
   "paths": {
     "/api": {
       "get": {
-        "tags": [
-          "Photon"
-        ],
+        "tags": ["Photon"],
         "operationId": "geocoding",
         "description": "Get coordinates for address",
         "parameters": [
@@ -42,6 +40,16 @@
               "type": "string"
             },
             "example": "10"
+          },
+          {
+            "name": "zoom",
+            "in": "query",
+            "description": "Describes the radius around the center to focus on. This influences location bias.",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "default": 16
+            }
           },
           {
             "name": "limit",
@@ -114,9 +122,7 @@
     },
     "/reverse": {
       "get": {
-        "tags": [
-          "Photon"
-        ],
+        "tags": ["Photon"],
         "operationId": "reverse",
         "description": "Get address for coordinates",
         "parameters": [
@@ -185,9 +191,7 @@
     },
     "/status": {
       "get": {
-        "tags": [
-          "Photon"
-        ],
+        "tags": ["Photon"],
         "operationId": "status",
         "description": "Get service status",
         "responses": {
@@ -209,36 +213,25 @@
     "schemas": {
       "PhotonFeature": {
         "type": "object",
-        "required": [
-          "type",
-          "geometry",
-          "properties"
-        ],
+        "required": ["type", "geometry", "properties"],
         "properties": {
           "type": {
             "oneOf": [
               {
                 "type": "string",
-                "enum": [
-                  "Feature"
-                ]
+                "enum": ["Feature"]
               }
             ]
           },
           "geometry": {
             "type": "object",
-            "required": [
-              "type",
-              "coordinates"
-            ],
+            "required": ["type", "coordinates"],
             "properties": {
               "type": {
                 "oneOf": [
                   {
                     "type": "string",
-                    "enum": [
-                      "Point"
-                    ]
+                    "enum": ["Point"]
                   }
                 ]
               },
@@ -254,10 +247,7 @@
           },
           "properties": {
             "type": "object",
-            "required": [
-              "osm_id",
-              "osm_type"
-            ],
+            "required": ["osm_id", "osm_type"],
             "properties": {
               "osm_id": {
                 "type": "integer",
@@ -305,18 +295,13 @@
       },
       "PhotonFeatureCollection": {
         "type": "object",
-        "required": [
-          "type",
-          "features"
-        ],
+        "required": ["type", "features"],
         "properties": {
           "type": {
             "oneOf": [
               {
                 "type": "string",
-                "enum": [
-                  "FeatureCollection"
-                ]
+                "enum": ["FeatureCollection"]
               }
             ]
           },
