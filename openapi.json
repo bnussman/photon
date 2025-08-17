@@ -1,0 +1,346 @@
+{
+  "openapi": "3.0.1",
+  "externalDocs": {
+    "url": "https://github.com/komoot/photon"
+  },
+  "info": {
+    "title": "Komoot Photon",
+    "version": "0.5.0",
+    "license": {
+      "name": "Apache-2.0",
+      "url": "https://opensource.org/licenses/Apache-2.0"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://photon.komoot.io"
+    }
+  ],
+  "paths": {
+    "/api": {
+      "get": {
+        "tags": [
+          "Photon"
+        ],
+        "operationId": "geocoding",
+        "description": "Get coordinates for address",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Salzburg"
+          },
+          {
+            "name": "location_bias_scale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "10"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            },
+            "example": "10"
+          },
+          {
+            "name": "osm_tag",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "tourism:museum"
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "de"
+          },
+          {
+            "name": "lon",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            },
+            "example": "13.030814"
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            },
+            "example": "47.809487"
+          },
+          {
+            "name": "bbox",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "9.5,51.5,11.5,53.5"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhotonFeatureCollection"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reverse": {
+      "get": {
+        "tags": [
+          "Photon"
+        ],
+        "operationId": "reverse",
+        "description": "Get address for coordinates",
+        "parameters": [
+          {
+            "name": "lon",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "example": "13.029354878315758"
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "example": "47.80741178491954"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            },
+            "description": "Maximum number of features",
+            "example": "1"
+          },
+          {
+            "name": "radius",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            },
+            "description": "Maximum radius in km",
+            "example": "5000"
+          },
+          {
+            "name": "distance_sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "example": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhotonFeatureCollection"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/status": {
+      "get": {
+        "tags": [
+          "Photon"
+        ],
+        "operationId": "status",
+        "description": "Get service status",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PhotonFeature": {
+        "type": "object",
+        "required": [
+          "type",
+          "geometry",
+          "properties"
+        ],
+        "properties": {
+          "type": {
+            "oneOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "Feature"
+                ]
+              }
+            ]
+          },
+          "geometry": {
+            "type": "object",
+            "required": [
+              "type",
+              "coordinates"
+            ],
+            "properties": {
+              "type": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "Point"
+                    ]
+                  }
+                ]
+              },
+              "coordinates": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "properties": {
+            "type": "object",
+            "required": [
+              "osm_id",
+              "osm_type"
+            ],
+            "properties": {
+              "osm_id": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "osm_type": {
+                "type": "string"
+              },
+              "extent": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "country": {
+                "type": "string"
+              },
+              "osm_key": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "osm_value": {
+                "type": "string"
+              },
+              "postcode": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "street": {
+                "type": "string"
+              },
+              "housenumber": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "PhotonFeatureCollection": {
+        "type": "object",
+        "required": [
+          "type",
+          "features"
+        ],
+        "properties": {
+          "type": {
+            "oneOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "FeatureCollection"
+                ]
+              }
+            ]
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PhotonFeature"
+            }
+          }
+        }
+      },
+      "Status": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "Ok"
+          },
+          "import_date": {
+            "type": "string",
+            "example": "2024-06-02T01:01:31Z"
+          }
+        }
+      }
+    }
+  }
+}
