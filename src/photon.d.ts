@@ -105,8 +105,11 @@ export interface operations {
             query: {
                 /** @example Salzburg */
                 q: string;
-                /** @example 10 */
-                location_bias_scale?: string;
+                /**
+                 * @description describes how much the prominence of a result should still be taken into account (0.0 to 1.0)
+                 * @example 0.2
+                 */
+                location_bias_scale?: number;
                 /** @description Describes the radius around the center to focus on. This influences location bias. */
                 zoom?: number;
                 /** @example 10 */
