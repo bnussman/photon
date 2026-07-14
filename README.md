@@ -14,13 +14,11 @@ bun add @banksnussman/photon
 ## Usage
 
 ```typescript
-import { photon } from '@banksnussman/photon';
+import { geocoding } from "@banksnussman/photon";
 
-const { data, error } = await photon.GET("/api", {
-  params: {
-    query: {
-      q: "Booneshine",
-    },
+const { data, error } = await geocoding({
+  query: {
+    q: "North Carolina",
   },
 });
 
